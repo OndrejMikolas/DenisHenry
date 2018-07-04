@@ -1,0 +1,82 @@
+/* ---===### denishenry.cz - Author: info@janpikla.cz - Updated: 15. April 2018 - 23:01:21 ###===--- */
+/* ==================================================================
+Zakladni funkce
+================================================================== */
+
+function log(text) {
+    if (window.console) {
+        console.log(text);
+    }
+}
+
+function inurl($text) {
+    if(window.location.href.indexOf($text) > -1) {
+        return true;
+    }
+    return false;
+}
+
+/* ==================================================================
+Rozsirujici funkce
+================================================================== */
+
+function jpLogo() {
+    if($("#logo:not(.jpDone)").length) {
+        $("#logo").addClass("jpDone");
+        $("#logo").html($(".jpLogo"));
+        $("#footer-icons [alt='Logo DH']").hide();
+    }
+}
+
+function jpArticle() {
+    if($("article[itemtype='https://schema.org/Article']").length) {
+        $("aside").addClass("jpHidden").css("visibility", "hidden");
+        $("article[itemtype='https://schema.org/Article']").addClass("jpArtText").css("text-align", "center");
+    }
+
+    if($(".news-item-detail[itemtype='https://schema.org/NewsArticle']").length) {
+        $("aside").addClass("jpHidden").css("visibility", "hidden");
+        $(".news-item-detail[itemtype='https://schema.org/NewsArticle']").addClass("jpArtText").css("text-align", "center");
+    }
+
+    $("aside").addClass("jpShown");
+}
+
+function jpCatLeftMenu() {
+    if($("#categories:not(.jpDone)").length) {
+        $("#categories").addClass("jpDone");
+        $("#categories > .categories:not(.active)").remove();
+    }
+}
+
+function jpHome() {
+    if ($(window).width() < 768) {
+        if($(".in-index #content:not(.jpDone)").length) {
+            $(".in-index #content").addClass("jpDone");
+            $(".in-index #content .banners-row").addClass("jpHomeBanner");
+            $(".jpHomeBanner").append($(".banners-footer"));
+        }
+    }
+}
+
+$(document).ready(function() {
+    jpArticle();
+    jpCatLeftMenu();
+    jpHome();
+    //jpLogo();
+
+    /*var nav = $('.menu');
+
+    $(window).scroll(function () {
+        if ($(this).scrollTop() > 150) {
+            nav.addClass("jpFixed");
+        } else {
+            nav.removeClass("jpFixed");
+        }
+    });*/
+});
+
+$(document).ajaxComplete(function() {
+    jpCatLeftMenu();
+    jpHome();
+});
